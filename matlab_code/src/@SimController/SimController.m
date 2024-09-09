@@ -26,7 +26,7 @@ classdef SimController < handle
 
         timing; % object that mocks time
 
-        sampling_period = 0.14; % seconds
+        sampling_period = 0.11; % seconds
 
         c0 = 0; % counter of periods
     end

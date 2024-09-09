@@ -21,6 +21,7 @@ Ahora solo lo sabe dios.
 7 / 2 / 2021
 Matlab r2021b.
 %}
+%Number of hidden units in the neural network
 numHiddenUnits = 256;
 name = 'dqn_e_veryLarge';
 

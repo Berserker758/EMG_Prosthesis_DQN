@@ -52,15 +52,10 @@ for i = 1:length(action)
 
     %- rewarding
     if action(i) == correctAction
-        if action(i) ~= 0
-            rewardVector(i) = rewards.goodMove;
-        else
-            rewardVector(i) = rewards.goodMove2;
-        end
-    elseif action(i) == 0
-        rewardVector(i) = rewards.wrongStop;
+        rewardVector(i) = (action(i) ~= 0) * rewards.goodMove + (action(i) == 0) * rewards.goodMove2;
+        
     else
-        rewardVector(i) = rewards.dirInverse;
+        rewardVector(i) = (action(i) == 0) * rewards.wrongStop + (action(i) ~= 0) * rewards.dirInverse;
     end
 end
 

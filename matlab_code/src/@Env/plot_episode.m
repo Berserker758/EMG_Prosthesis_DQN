@@ -6,7 +6,7 @@ function plot_episode(this)
     % to faster training not plot or plot not all episode, skipping any other
     if this.episodeCounter > 1
         % Path to store the graphics
-        saveDir = 'D:\graficos2\test1';
+        saveDir = 'C:\graficos2\test1';
         if ~exist(saveDir, 'dir')
             mkdir(saveDir);
         end

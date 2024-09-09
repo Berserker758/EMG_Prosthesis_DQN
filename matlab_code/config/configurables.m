@@ -60,7 +60,7 @@ params.maxNumberStepsInEpisodes = 50;% max buffer in episode
 % duration.
 params.episodeDuration = 5; % Denis dataset has up to 5 seconds of data
 
-params.period = 0.2; % reading time
+params.period = 0.1; % reading time
 
 params.verbose = true;  % print every statement verbose
 
@@ -69,8 +69,8 @@ params.verbose = true;  % print every statement verbose
 % when ``run_training`` is true, the environment trains the agent.
 % when false, only uses the agent (simulation aka evaluation). Some configs
 % are defined depending on the value of ``run_training``.
-% params.run_training = true;
- params.run_training = false;
+params.run_training = true;
+% params.run_training = false;
 
 
 % --- sim options
@@ -109,7 +109,7 @@ end
 if ~params.newTraining
 
     params.agentFile = ...
-        "D:\trainedAgentsProtesisDenisFinal\00_oldy\_\24-07-18 08 55 10\Agent5000.mat";
+        "C:\trainedAgentsProtesisTest\00_oldy\_\24-09-06 16 19 58\Agent5000.mat";
     params.agent_id = 'best'; % or name
     % params.agentFile = ...
     %     ".\trainedAgents\Agent3.mat";
@@ -145,9 +145,9 @@ if params.usePrerecorded
 
     % params.dataset = "jona_2022"; % it can be a single name
     % everybody together
-     params.dataset = {"BLANCA", "CECILIA", "DENIS", "EMILIA", "GABI", "GABRIEL", "IVANNA", "JOE", "JONATHAN", "KHAROL", "MATEO", "SANDRA"}; % or a cell of names.
+    % params.dataset = {"BLANCA", "CECILIA", "DENIS", "EMILIA", "GABI", "GABRIEL", "IVANNA", "JOE", "JONATHAN", "KHAROL", "MATEO", "SANDRA"}; % or a cell of names.
     % params.dataset = "DENIS";
-    % params.dataset = "GABRIEL";
+    params.dataset = "GABRIEL";
     % params.dataset = "MATEO";
     % params.dataset = "EMILIA";
     % params.dataset = "IVANNA";
@@ -194,7 +194,7 @@ params.flagSaveTraining = true;
 % params.flagSaveTraining = false;
 
 % saving agent progress locally as backup, not in onedrive for overhead.
-params.agents_directory = @(agent_id, variant)(fullfile("D:\", ...
+params.agents_directory = @(agent_id, variant)(fullfile("C:\", ...
     "trainedAgentsProtesisTest", agent_id, variant, ...
     string(datetime("now","Format", "yy-MM-dd HH m s"))));
 

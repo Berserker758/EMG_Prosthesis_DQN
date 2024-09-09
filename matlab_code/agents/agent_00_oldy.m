@@ -38,13 +38,13 @@ criticNetwork = [
 opt = rlRepresentationOptions( ...
     'LearnRate', 1e-3, ... % default 0.01
     'L2RegularizationFactor', 1e-4... % default 1e-4
-    , 'Optimizer', 'sgdm' ... % default adam
-    ,'UseDevice','gpu');
+    , 'Optimizer', 'adam' ... % default adam
+    ,'UseDevice','cpu');
 
 % for adam
-% opt.OptimizerParameters.GradientDecayFactor = 0.99; % Default 0.9
+opt.OptimizerParameters.GradientDecayFactor = 0.99; % Default 0.9
 % for sgdm
-opt.OptimizerParameters.Momentum = 0.85; % default 0.9
+%opt.OptimizerParameters.Momentum = 0.85; % default 0.9
 
 critic = rlQValueRepresentation(criticNetwork, observationInfo, ...
     actionInfo, 'Observation', {'observation'}, opt);
