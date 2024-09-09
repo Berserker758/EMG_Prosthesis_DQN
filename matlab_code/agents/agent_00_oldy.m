@@ -38,13 +38,13 @@ criticNetwork = [
 opt = rlRepresentationOptions( ...
     'LearnRate', 1e-3, ... % default 0.01
     'L2RegularizationFactor', 1e-4... % default 1e-4
-    , 'Optimizer', 'adam' ... % default adam
+    , 'Optimizer', 'sgdm' ... % default adam
     ,'UseDevice','cpu');
 
 % for adam
-opt.OptimizerParameters.GradientDecayFactor = 0.99; % Default 0.9
+% opt.OptimizerParameters.GradientDecayFactor = 0.99; % Default 0.9
 % for sgdm
-%opt.OptimizerParameters.Momentum = 0.85; % default 0.9
+opt.OptimizerParameters.Momentum = 0.85; % default 0.9
 
 critic = rlQValueRepresentation(criticNetwork, observationInfo, ...
     actionInfo, 'Observation', {'observation'}, opt);
@@ -57,7 +57,7 @@ agentOptions = rlDQNAgentOptions(...
     'TargetUpdateFrequency', 2, ... %def
     'ResetExperienceBufferBeforeTraining', false,...
     'SaveExperienceBufferWithAgent', true, ... % not default
-    'MiniBatchSize', 32, ...
+    'MiniBatchSize', 32, ...% updated from 32 to 64
     'NumStepsToLookAhead', 1, ...
     'ExperienceBufferLength', 5000, ... % default
     'DiscountFactor', 0.99);% default

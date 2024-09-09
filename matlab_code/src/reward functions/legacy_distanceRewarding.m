@@ -1,78 +1,75 @@
 function [reward, rewardVector, action] = legacy_distanceRewarding(this, action)
 
-persistent previousPosFlex
+    persistent previousPosFlex
 
-if isempty(previousPosFlex)
-    previousPosFlex = zeros(size(action)); % Initialize posFlex registration
-end
-
-%% same action coarcing with reward reduction by distance.
-%----- defs and configs
-% the distance is multiplied by this factor.
-
-opts.k = 25; % factor that balance between distance and action.
-% when it wants to go to the very other direction
-rewards.dirInverse = -3;
-% 1) when it is in a climbable state but it wants to stop
-% 2) must stop but moves in the correct direction
-rewards.wrongStop = -4;
-
-rewards.goodMove = 6;
-
-rewards.goodMove2 = 3;
-
-rewards.inactivityPenalty = -6;
-
-rewards.moveIncentive = 3;
-
-rewardVector = zeros(1, 4);
-
-%% -- reading
-% flexing pos
-if this.c == 1
-    flexConv = this.flexJoined_scaler(reduceFlexDimension(this.flexData));
-else
-    flexConv = this.flexConvertedLog{this.c - 1};
-end
-pos = this.motorData(end, :);
-posFlex = this.flexJoined_scaler(encoder2Flex(pos));
-
-%%- loop by motor
-for i = 1:length(action)
-
-    %- getting correct
-    if  previousPosFlex(i) < posFlex(i)
-        % goal is in front, should go forward
-        correctAction = 1;
-    elseif previousPosFlex(i) > posFlex(i)
-        correctAction = -1;
-    else
-        correctAction = 0;
+    % Initialize persistent variable if it's empty
+    if isempty(previousPosFlex)
+        previousPosFlex = zeros(size(action)); % Initialize posFlex registration
     end
 
-    %- rewarding
-    if action(i) == correctAction
-        rewardVector(i) = (action(i) ~= 0) * rewards.goodMove + (action(i) == 0) * rewards.goodMove2;
-        
+    % Reward configuration
+    opts.k = 25; % Scaling factor for distance penalty
+    rewards = struct(...
+        'dirInverse', -5, ... % Penalty for moving in the opposite direction
+        'wrongStop', -8, ...  % Penalty for stopping inappropriately
+        'goodMove', 10, ...    % Reward for correct movement
+        'goodMove2', 5, ...   % Reward for appropriate stopping
+        'inactivityPenalty', -10, ... % Penalty for inactivity
+        'moveIncentive', 4 ... % Incentive for any movement
+    );
+
+    % Initialize reward vector
+    rewardVector = zeros(1, 4);
+
+    % Retrieve and process current position data
+    if this.c == 1
+        flexConv = this.flexJoined_scaler(reduceFlexDimension(this.flexData));
     else
-        rewardVector(i) = (action(i) == 0) * rewards.wrongStop + (action(i) ~= 0) * rewards.dirInverse;
+        flexConv = this.flexConvertedLog{this.c - 1};
     end
-end
+    pos = this.motorData(end, :);
+    posFlex = this.flexJoined_scaler(encoder2Flex(pos));
 
-% Update posFlex record
-previousPosFlex = posFlex;
+    % Calculate rewards based on actions
+    for i = 1:length(action)
+        % Determine the correct action based on position change
+        if previousPosFlex(i) < posFlex(i)
+            correctAction = 1; % Forward movement
+        elseif previousPosFlex(i) > posFlex(i)
+            correctAction = -1; % Backward movement
+        else
+            correctAction = 0; % No movement
+        end
 
-% Encourage movement if there is any action
-if any(action ~= 0)
-    rewardVector = rewardVector + rewards.moveIncentive;
-end
+        % Assign rewards based on action correctness
+        if action(i) == correctAction
+            if action(i) ~= 0
+                rewardVector(i) = rewards.goodMove;
+            else
+                rewardVector(i) = rewards.goodMove2;
+            end
+        else
+            if action(i) == 0
+                rewardVector(i) = rewards.wrongStop;
+            else
+                rewardVector(i) = rewards.dirInverse;
+            end
+        end
+    end
 
-%-- Added. calculating penalty with distance
-distance = abs(posFlex - flexConv(end, :));
-rewardVector = rewardVector - distance.*opts.k;
+    % Update previous position
+    previousPosFlex = posFlex;
 
+    % Add movement incentive if any action is taken
+    if any(action ~= 0)
+        rewardVector = rewardVector + rewards.moveIncentive;
+    end
 
-% Average all rewards and penalties
-reward = mean(rewardVector);
+    % Apply distance-based penalty
+    distance = abs(posFlex - flexConv(end, :));
+    rewardVector = rewardVector - distance * opts.k;
+
+    % Calculate average reward
+    reward = mean(rewardVector);
 
 end

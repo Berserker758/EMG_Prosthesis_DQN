@@ -14,7 +14,7 @@ function InitialObservation = reset(this)
     %uiwait(f)
 %end
 %plot_episode(this)%for testing and save
-% plot_episode2(this)%for training with MYO and glove
+%plot_episode2(this)%for training with MYO and glove
 this.episodeTimestamp(1) = this.episodeTic.toc(this.c);
 this.episodeCounter = this.episodeCounter + 1;
 this.encoderLog = cell(this.maxNumberStepsInEpisodes, 1);
