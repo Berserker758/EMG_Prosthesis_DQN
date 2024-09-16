@@ -4,22 +4,22 @@ function [reward, rewardVector, action] = legacy_distanceRewarding(this, action)
 
     % Initialize persistent variable if it's empty
     if isempty(previousPosFlex)
-        previousPosFlex = zeros(size(action)); % Initialize posFlex registration
+        previousPosFlex = zeros(size(action));
     end
 
     % Reward configuration
-    opts.k = 25; % Scaling factor for distance penalty
+    opts.k = 2; % Scaling factor for distance penalty
     rewards = struct(...
-        'dirInverse', -5, ... % Penalty for moving in the opposite direction
-        'wrongStop', -8, ...  % Penalty for stopping inappropriately
+        'dirInverse', -10, ... % Penalty for moving in the opposite direction
+        'wrongStop', -5, ...  % Penalty for stopping inappropriately
         'goodMove', 10, ...    % Reward for correct movement
         'goodMove2', 5, ...   % Reward for appropriate stopping
-        'inactivityPenalty', -10, ... % Penalty for inactivity
-        'moveIncentive', 4 ... % Incentive for any movement
+        'inactivityPenalty', -2, ... % Penalty for inactivity
+        'moveIncentive', 3 ... % Incentive for any movement
     );
 
     % Initialize reward vector
-    rewardVector = zeros(1, 4);
+    rewardVector = zeros(1, length(action));
 
     % Retrieve and process current position data
     if this.c == 1
@@ -67,7 +67,8 @@ function [reward, rewardVector, action] = legacy_distanceRewarding(this, action)
 
     % Apply distance-based penalty
     distance = abs(posFlex - flexConv(end, :));
-    rewardVector = rewardVector - distance * opts.k;
+    penaltyDistance = distance * opts.k;
+    rewardVector = rewardVector - penaltyDistance;
 
     % Calculate average reward
     reward = mean(rewardVector);

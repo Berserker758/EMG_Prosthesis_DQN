@@ -27,9 +27,9 @@ criticNetwork = [
     featureInputLayer(44, "Name", "observation")
     fullyConnectedLayer(64, "Name", "fc_1")
     hL("Name", "hL1")
-    fullyConnectedLayer(64, "Name", "fc_2")
+    fullyConnectedLayer(128, "Name", "fc_2")
     hL("Name", "hL2")
-    fullyConnectedLayer(32, "Name", "fc_3")
+    fullyConnectedLayer(64, "Name", "fc_3")
     hL("Name", "hL3")
     fullyConnectedLayer(81, "Name", "output")];
 
@@ -44,26 +44,26 @@ opt = rlRepresentationOptions( ...
 % for adam
 % opt.OptimizerParameters.GradientDecayFactor = 0.99; % Default 0.9
 % for sgdm
-opt.OptimizerParameters.Momentum = 0.85; % default 0.9
+opt.OptimizerParameters.Momentum = 0.9; % default 0.9
 
 critic = rlQValueRepresentation(criticNetwork, observationInfo, ...
     actionInfo, 'Observation', {'observation'}, opt);
 
 %% agent options
 agentOptions = rlDQNAgentOptions(...
-    'UseDoubleDQN', false, ... % default
+    'UseDoubleDQN', true, ... % default
     'SequenceLength', 1, ... % default, Maximum batch-training trajectory length when using a recurrent neural network for the critic, specified as a positive integer. This value must be greater than 1 when using a recurrent neural network for the critic and 1 otherwise.
     'TargetSmoothFactor',1e-4, ... % Smoothing factor for target critic updates, specified as a positive scalar less than or equal to 1.
-    'TargetUpdateFrequency', 2, ... %def
+    'TargetUpdateFrequency', 4, ... %def
     'ResetExperienceBufferBeforeTraining', false,...
     'SaveExperienceBufferWithAgent', true, ... % not default
-    'MiniBatchSize', 32, ...% updated from 32 to 64
+    'MiniBatchSize', 64, ...% updated from 32 to 64
     'NumStepsToLookAhead', 1, ...
     'ExperienceBufferLength', 5000, ... % default
     'DiscountFactor', 0.99);% default
 
-agentOptions.EpsilonGreedyExploration.EpsilonDecay = 5e-5;
+agentOptions.EpsilonGreedyExploration.EpsilonDecay = 1e-4;
 agentOptions.EpsilonGreedyExploration.Epsilon = 1; % default
-agentOptions.EpsilonGreedyExploration.EpsilonMin = 0.15; % default
+agentOptions.EpsilonGreedyExploration.EpsilonMin = 0.1; % default
 
 agent = rlDQNAgent(critic, agentOptions);

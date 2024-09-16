@@ -4,7 +4,7 @@ function plot_episode(this)
     % with their respective actions and rewards.
 
     %% Check if plotting should occur
-    if this.episodeCounter > 1
+    if this.episodeCounter > 0 
         % Path to store the graphics
         saveDir = '.\graficos2\test1';
         if ~exist(saveDir, 'dir')
@@ -38,6 +38,11 @@ function plot_episode(this)
 
         % Scaling stock indices to match interpolated indices
         action_indices = linspace(1, n_glove, size(aux_actions, 1));
+        
+        % Determine global axis limits
+        all_positions = [prosthesis_position_interp; glove_position];
+        global_xlim = [1, n_glove];
+        global_ylim = [min(all_positions(:)), max(all_positions(:))];
 
         for i = 1:4
             % Create the first subplot
@@ -59,8 +64,10 @@ function plot_episode(this)
                 end
             end
 
-            % Add legend to the first subplot
-            legend(ax1, [h1, h2], 'Location', 'best'); % Show only the first two plots in the legend
+            % Add legend and set axis limits to the first subplot
+            legend(ax1, [h1, h2], 'Location', 'best');
+            xlim(ax1, global_xlim);
+            ylim(ax1, global_ylim);
 
             % Create the second subplot
             ax2 = subplot(4, 2, 2*i, 'Parent', f);
@@ -86,8 +93,10 @@ function plot_episode(this)
                 end
             end
 
-            % Add legend to the second subplot
-            legend(ax2, [h3, h4], 'Location', 'best'); % Show only the first two plots in the legend
+            % Add legend and set axis limits to the second subplot
+            legend(ax2, [h3, h4], 'Location', 'best');
+            xlim(ax2, global_xlim);
+            ylim(ax2, global_ylim);
 
             % Additional subplot formatting
             if i == 1

@@ -47,7 +47,7 @@ arguments
 end
 
 % ------ auxs vars
-n_points = round(duration/sampling_period);
+n_points = ceil(duration/sampling_period);
 delta_ms = duration*1000/n_points;
 
 % ------ loop

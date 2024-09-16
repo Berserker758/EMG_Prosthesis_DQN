@@ -109,7 +109,7 @@ end
 if ~params.newTraining
 
     params.agentFile = ...
-        "C:\trainedAgentsProtesisTest\00_oldy\_\24-09-09 16 8 3\Agent5000.mat";
+        "C:\trainedAgentsProtesisTest\00_oldy\_\24-09-12 17 35 49\Agent5000.mat";
     params.agent_id = 'best'; % or name
     % params.agentFile = ...
     %     ".\trainedAgents\Agent3.mat";
@@ -145,7 +145,7 @@ if params.usePrerecorded
 
     % params.dataset = "jona_2022"; % it can be a single name
     % everybody together
-    params.dataset = {"BLANCA", "CECILIA", "DENIS", "EMILIA", "GABI", "GABRIEL", "IVANNA", "JOE", "JONATHAN", "KHAROL", "MATEO", "SANDRA"}; % or a cell of names.
+    % params.dataset = {"BLANCA", "CECILIA", "DENIS", "EMILIA", "GABI", "GABRIEL", "IVANNA", "JOE", "JONATHAN", "KHAROL", "MATEO", "SANDRA"}; % or a cell of names.
     % params.dataset = "DENIS";
     % params.dataset = "GABRIEL";
     % params.dataset = "MATEO";
@@ -153,7 +153,7 @@ if params.usePrerecorded
     % params.dataset = "IVANNA";
     % params.dataset = "CECILIA";
     % params.dataset = "GABI";
-    % params.dataset = "JONATHAN";
+    params.dataset = "JONATHAN";
     params.dataset_folder = '.\data\datasets\Denis Dataset\';
 else
 
