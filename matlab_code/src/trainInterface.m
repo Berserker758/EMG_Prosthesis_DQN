@@ -134,6 +134,7 @@ if configs.run_training
 
     env.log("Starting training!");
     trainingInfo = train(agent, env, opts);
+    plotAgents(agent_dir, configs.episodesTraining, configs.saveAgentValue);
 else
     % --- evaluation
     simpOpts = configs.simOpts;

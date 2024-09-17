@@ -136,6 +136,9 @@ function [observation, reward, isDone, loggedSignals] = step(this, action)
 
     if isDone && this.flagSaveTraining
         this.saveEpisode();
+        if mod(this.episodeCounter, 50) == 0
+            this.plot_episode();
+        end
     end
     % (optional) use notifyEnvUpdated to signal that the
     % environment has been updated (e.g. to update visualization)

@@ -55,6 +55,8 @@ end
 % params.returnHomeAtEndEpisode = false; %train RT
 
 params.maxNumberStepsInEpisodes = 50;% max buffer in episode
+params.episodesTraining = 1000;
+params.saveAgentValue = 200;
 
 % When using prerecorded, waits till data is exhausted, ignores episode
 % duration.
@@ -83,12 +85,12 @@ if ~params.run_training
         );
 else
     params.RLtrainingOptions = rlTrainingOptions(...
-        'MaxEpisodes',5000,... % when too many episodes it makes slower creating episode =20000000
+        'MaxEpisodes',params.episodesTraining,... % when too many episodes it makes slower creating episode =20000000
         'MaxStepsPerEpisode', params.maxNumberStepsInEpisodes,...
         'StopTrainingCriteria',"AverageReward",...
         'StopTrainingValue', 600,... % new rewards
         'SaveAgentCriteria','EpisodeFrequency', ...
-        'SaveAgentValue', 200 ...
+        'SaveAgentValue', params.saveAgentValue ...
         ..., Plots="none" ... % debugging
         );
 end

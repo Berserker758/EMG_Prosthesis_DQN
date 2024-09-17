@@ -6,7 +6,7 @@ function plot_episode(this)
     %% Check if plotting should occur
     if this.episodeCounter > 0 
         % Path to store the graphics
-        saveDir = '.\graficos2\test1';
+        saveDir = 'C:\graficos2\test1';
         if ~exist(saveDir, 'dir')
             mkdir(saveDir);
         end
