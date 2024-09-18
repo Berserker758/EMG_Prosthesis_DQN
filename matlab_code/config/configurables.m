@@ -111,7 +111,7 @@ end
 if ~params.newTraining
 
     params.agentFile = ...
-        "C:\trainedAgentsProtesisTest\00_oldy\_\24-09-12 17 35 49\Agent5000.mat";
+        "C:\trainedAgentsProtesisTest\00_oldy\_\24-09-18 14 38 25\Agent800.mat";
     params.agent_id = 'best'; % or name
     % params.agentFile = ...
     %     ".\trainedAgents\Agent3.mat";

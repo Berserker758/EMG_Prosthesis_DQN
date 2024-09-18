@@ -13,7 +13,7 @@ function InitialObservation = reset(this)
     %plot(ax, cat(1, this.encoderAdjustedLog{:}))
     %uiwait(f)
 %end
-% plot_episode(this)%for testing and save
+%plot_episode(this)%for testing and save
 % plot_episode2(this)%for training with MYO and glove
 this.episodeTimestamp(1) = this.episodeTic.toc(this.c);
 this.episodeCounter = this.episodeCounter + 1;

@@ -30,13 +30,6 @@ function [reward, rewardVector, action] = legacy_distanceRewarding(this, action)
     pos = this.motorData(end, :);
     posFlex = this.flexJoined_scaler(encoder2Flex(pos));
 
-    for i = 1:length(action)
-        if action(i) == 255
-            action(i) = 1;
-        elseif action(i) == -255
-            action(i) = -1;
-        end
-    end
 
     % Calculate rewards based on actions
     for i = 1:length(action)

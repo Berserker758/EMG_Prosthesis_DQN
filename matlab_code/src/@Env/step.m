@@ -119,10 +119,10 @@ function [observation, reward, isDone, loggedSignals] = step(this, action)
     this.flexConverted = this.flexJoined_scaler(reduceFlexDimension(this.flexData));
     this.adjustEnc = this.flexJoined_scaler(encoder2Flex(this.motorData));
 
-    if this.rf_modify_actions
+    %if this.rf_modify_actions
         % action is not clipped
-        reward = this.reward_function(this, action, []);
-    end
+     %   reward = this.reward_function(this, action, []);
+    %end
 
     %% logs
     this.emgLog{this.c} = emg;
