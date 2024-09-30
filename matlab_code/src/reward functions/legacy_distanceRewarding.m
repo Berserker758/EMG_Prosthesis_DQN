@@ -8,7 +8,7 @@ function [reward, rewardVector, action] = legacy_distanceRewarding(this, action)
     end
 
     % Reward configuration
-    opts.k = 2; % Scaling factor for distance penalty
+    opts.k = 10; % Scaling factor for distance penalty
     rewards = struct(...
         'dirInverse', -10, ... % Penalty for moving in the opposite direction
         'wrongStop', -5, ...  % Penalty for stopping inappropriately
